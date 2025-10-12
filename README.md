@@ -48,4 +48,4 @@ Propuesta de proyecto: Reloj marcador
      5.4.3. Mensajes de restricción.
 
 6) Mockups
-   
+   <img width="1920" height="1080" alt="mockups" src="https://github.com/user-attachments/assets/b5bcce8a-f217-4e08-936d-18e2ac86ad66" />
