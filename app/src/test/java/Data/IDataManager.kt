@@ -4,7 +4,7 @@ import Entity.Clock
 import Entity.Person
 import Entity.Attendances
 import java.util.Date
-
+//Cambio
 interface IDataManager {
     //Person
     fun addPerson(person: Person)
