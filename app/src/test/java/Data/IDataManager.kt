@@ -6,7 +6,6 @@ import Entity.Attendances
 import java.util.Date
 
 interface IDataManager {
-
     //Person
     fun addPerson(person: Person)
     fun updatePerson(person: Person)
