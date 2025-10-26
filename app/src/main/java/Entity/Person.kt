@@ -9,6 +9,8 @@ class Person {
     private var idDocument:     String = ""
     private var status:         Boolean = true
 
+    constructor()
+
     constructor(
         id: String,
         name: String,

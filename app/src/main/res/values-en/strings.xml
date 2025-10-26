@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Clocker</string>
+    <string name="ErrorMsgAdd">Unable to add</string>
+    <string name="ErrorMsgUpdate">Unable to update</string>
+    <string name="ErrorMsgRemove">Unable to remove</string>
+    <string name="ErrorMsgGetAll">Unable to load the list.</string>
+    <string name="ErrorMsgGetById">Unable to load the record</string>
+    <string name="TextID">Identification</string>
+    <string name="TextName">Name</string>
+    <string name="TextFLastName">First last name</string>
+    <string name="TextSLastName">Second last name</string>
+    <string name="TextNationality">Nationality</string>
+    <string name="TextStatus">Status</string>
+    <string name="btnBackPage">Back</string>
+    <string name="btnSave">Save</string>
+</resources>

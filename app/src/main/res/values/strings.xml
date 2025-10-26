@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Clocker</string>
+    <string name="ErrorMsgAdd">No fue posible agregar</string>
+    <string name="ErrorMsgUpdate">No fue posible actualizar</string>
+    <string name="ErrorMsgRemove">No fue posible eliminar</string>
+    <string name="ErrorMsgGetAll">No fue posible cargar la lista</string>
+    <string name="ErrorMsgGetById">No fue posible obtener el registro</string>
+    <string name="TextID">Cédula</string>
+    <string name="TextName">Nombre</string>
+    <string name="TextFLastName">Primer apellido</string>
+    <string name="TextSLastName">Segundo apellido</string>
+    <string name="TextNationality">Nacionalidad</string>
+    <string name="TextStatus">Estado</string>
+    <string name="btnBackPage">Regresar</string>
+    <string name="btnSave">Guardar</string>
 </resources>
