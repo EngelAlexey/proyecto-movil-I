@@ -36,5 +36,12 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, ClockListActivity::class.java)
             startActivity(intent)
         }
+
+        val btnAttendances: Button = findViewById(R.id.btnAttendances)
+        btnAttendances.setOnClickListener {
+            val intent = Intent(this, AttendanceListActivity::class.java)
+            startActivity(intent)
+        }
+
 }
 }

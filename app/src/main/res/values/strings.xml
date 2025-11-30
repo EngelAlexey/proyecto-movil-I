@@ -26,4 +26,6 @@
     <string name="MsgDataNoFound">No se encontró la información</string>
     <string name="btnClocker">Reloj Marcador</string>
     <string name="btnRegistersClock">Marcas</string>
+    <string name="TextDeleteActionQuestion">¿Desea eliminar este registro?</string>
+    <string name="TextAttendances">Asistencias</string>
 </resources>

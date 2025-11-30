@@ -6,7 +6,6 @@ class Person {
     private var fLastName:      String = ""
     private var sLastName:      String = ""
     private var nationality:    String = ""
-    private var idDocument:     String = ""
     private var status:         Boolean = true
 
     constructor()
@@ -17,7 +16,6 @@ class Person {
         fLastName: String,
         sLastName: String,
         nationality: String,
-        idDocument: String,
         status: Boolean
     ) {
         this.id = id
@@ -25,7 +23,6 @@ class Person {
         this.fLastName = fLastName
         this.sLastName = sLastName
         this.nationality = nationality
-        this.idDocument = idDocument
         this.status = status
     }
 
@@ -48,10 +45,6 @@ class Person {
     var Nationality: String
         get() = this.nationality
         set(value) { this.nationality = value }
-
-    var IDDocument: String
-        get() = this.idDocument
-        set(value) { this.idDocument = value }
 
     var Status: Boolean
         get() = this.status
