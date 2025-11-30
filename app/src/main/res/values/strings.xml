@@ -28,4 +28,8 @@
     <string name="btnRegistersClock">Marcas</string>
     <string name="TextDeleteActionQuestion">¿Desea eliminar este registro?</string>
     <string name="TextAttendances">Asistencias</string>
+    <string name="MsgUnknow">Desconocido</string>
+    <string name="MsgPending">Pendiente</string>
+    <string name="MsgEntry">Entrada</string>
+    <string name="MsgDeparture">Salida</string>
 </resources>

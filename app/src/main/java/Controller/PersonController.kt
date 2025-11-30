@@ -16,7 +16,7 @@ class PersonController(private val context: Context) {
                 throw Exception(context.getString(R.string.ErrorMsgAdd))
             }
         } catch (e: Exception) {
-            Log.e("API", "Error adding person: ${e.message}")
+            Log.e("API", R.string.ErrorMsgAdd.toString() + ": ${e.message}")
             throw e
         }
     }
@@ -28,7 +28,7 @@ class PersonController(private val context: Context) {
                 throw Exception(context.getString(R.string.ErrorMsgUpdate))
             }
         } catch (e: Exception) {
-            Log.e("API", "Error updating person: ${e.message}")
+            Log.e("API", R.string.ErrorMsgAdd.toString() + ": ${e.message}")
             throw e
         }
     }
@@ -40,7 +40,7 @@ class PersonController(private val context: Context) {
                 throw Exception(context.getString(R.string.ErrorMsgRemove))
             }
         } catch (e: Exception) {
-            Log.e("API", "Error removing person: ${e.message}")
+            Log.e("API", R.string.ErrorMsgAdd.toString() + ": ${e.message}")
             throw e
         }
     }
@@ -54,7 +54,7 @@ class PersonController(private val context: Context) {
                 throw Exception(context.getString(R.string.ErrorMsgGetAll))
             }
         } catch (e: Exception) {
-            Log.e("API", "Error getting people: ${e.message}")
+            Log.e("API", R.string.ErrorMsgGetAll.toString() + ": ${e.message}")
             emptyList()
         }
     }
@@ -68,7 +68,7 @@ class PersonController(private val context: Context) {
                 null
             }
         } catch (e: Exception) {
-            Log.e("API", "Error getting person by id: ${e.message}")
+            Log.e("API", R.string.ErrorMsgGetById.toString() + ": ${e.message}")
             null
         }
     }

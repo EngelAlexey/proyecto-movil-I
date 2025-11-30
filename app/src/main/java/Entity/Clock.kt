@@ -17,6 +17,11 @@ class Clock {
     private var longitude:      Int = 0
     private lateinit var photo: Bitmap
 
+    companion object {
+        const val TYPE_ENTRY = "Entry"
+        const val TYPE_DEPARTURE = "Departure"
+    }
+
     constructor(
         idClock: String,
         idPerson: String,

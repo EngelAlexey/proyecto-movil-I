@@ -3,6 +3,9 @@ package com.example.clocker
 import Controller.AttendanceController
 import Controller.PersonController
 import Entity.AttendanceWithPerson
+import Entity.Attendances
+import Interface.OnAttendanceItemClickListener
+import Util.Util
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
@@ -15,7 +18,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
 
-class AttendanceListActivity : AppCompatActivity() {
+class AttendanceListActivity : AppCompatActivity(), OnAttendanceItemClickListener {
+
+    private lateinit var attendanceController: AttendanceController
+    private lateinit var personController: PersonController
+    private lateinit var recycler: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,14 +35,17 @@ class AttendanceListActivity : AppCompatActivity() {
             insets
         }
 
+        recycler = findViewById(R.id.rvAttendances)
         val btnBack = findViewById<Button>(R.id.btnBack2)
         btnBack.setOnClickListener { finish() }
 
-        val recycler = findViewById<RecyclerView>(R.id.rvAttendances)
+        attendanceController = AttendanceController(this)
+        personController = PersonController(this)
 
-        val attendanceController = AttendanceController(this)
-        val personController = PersonController(this)
+        loadData()
+    }
 
+    private fun loadData() {
         lifecycleScope.launch {
             try {
                 val peopleList = personController.getAllPeople()
@@ -46,7 +56,7 @@ class AttendanceListActivity : AppCompatActivity() {
                     val fullName = if (person != null) {
                         "${person.Name} ${person.FLastName} ${person.SLastName}"
                     } else {
-                        "Desconocido (ID: ${attendance.idPerson})"
+                        "${R.string.MsgUnknow} (ID: ${attendance.idPerson})"
                     }
                     AttendanceWithPerson(attendance, fullName)
                 }
@@ -56,12 +66,26 @@ class AttendanceListActivity : AppCompatActivity() {
                         .thenBy { it.personName }
                 )
 
-                val adapter = AttendanceListAdapter(sortedList)
+                val adapter = AttendanceListAdapter(sortedList, this@AttendanceListActivity)
                 recycler.layoutManager = LinearLayoutManager(this@AttendanceListActivity)
                 recycler.adapter = adapter
 
             } catch (e: Exception) {
                 Toast.makeText(this@AttendanceListActivity, e.message, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    override fun onDeleteClick(attendance: Attendances) {
+        Util.showDialogCondition(this, getString(R.string.TextDeleteActionQuestion)) {
+            lifecycleScope.launch {
+                try {
+                    attendanceController.deleteAttendance(attendance.idAttendance)
+                    Toast.makeText(this@AttendanceListActivity, getString(R.string.MsgDelete), Toast.LENGTH_SHORT).show()
+                    loadData()
+                } catch (e: Exception) {
+                    Toast.makeText(this@AttendanceListActivity, e.message, Toast.LENGTH_LONG).show()
+                }
             }
         }
     }

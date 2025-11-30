@@ -47,9 +47,9 @@ class AttendanceController(private val context: Context) {
         return DTOAttendance(
             idAttendance = if (this.idAttendance.isNotEmpty()) this.idAttendance else null,
             idPerson = this.idPerson,
-            dateAttendance = Util.formatDate(this.DateAttendance), // Solo Fecha
-            timeEntry = Util.formatDateTime(this.timeEntry),       // Fecha y Hora
-            timeExit = Util.formatDateTime(this.timeExit),         // Fecha y Hora
+            dateAttendance = Util.formatDate(this.DateAttendance),
+            timeEntry = Util.formatDateTime(this.timeEntry),
+            timeExit = Util.formatDateTime(this.timeExit),
             entryID = this.entryID,
             exitID = this.exitID
         )

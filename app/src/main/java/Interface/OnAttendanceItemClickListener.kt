@@ -1,4 +1,7 @@
 package Interface
 
-class OnAttendanceItemClickListener {
+import Entity.Attendances
+
+interface OnAttendanceItemClickListener {
+    fun onDeleteClick(attendance: Attendances)
 }

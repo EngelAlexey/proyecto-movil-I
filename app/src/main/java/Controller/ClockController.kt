@@ -25,7 +25,7 @@ class ClockController(private val context: Context) {
             }
 
             val isEntry = todayClocks.isEmpty()
-            clock.Type = if (isEntry) "Entrada" else "Salida"
+            clock.Type = if (isEntry) Clock.TYPE_ENTRY else Clock.TYPE_DEPARTURE
 
             val response = ClockerAPIService.api.createClock(clock.toDTO())
             if (!response.isSuccessful) {
@@ -56,9 +56,9 @@ class ClockController(private val context: Context) {
             )
 
             if (attendance != null) {
-                if (clockToDelete.Type == "Entrada") {
+                if (clockToDelete.Type == Clock.TYPE_ENTRY) {
                     attendanceController.deleteAttendance(attendance.idAttendance)
-                } else if (clockToDelete.Type == "Salida") {
+                } else if (clockToDelete.Type == Clock.TYPE_DEPARTURE) {
                     attendance.timeExit = attendance.timeEntry
                     attendanceController.updateAttendance(attendance)
                 }
@@ -95,7 +95,6 @@ class ClockController(private val context: Context) {
 
         if (isEntry) {
             val emptyDate = LocalDateTime.of(2000, 1, 1, 0, 0)
-
             val newAttendance = Attendances(
                 IDAttendance = "",
                 dateAttendance = clock.DateClock.toLocalDate(),

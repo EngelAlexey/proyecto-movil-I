@@ -57,7 +57,7 @@ class ClockListActivity : AppCompatActivity(), OnClockItemClickListener {
                     val fullName = if (person != null) {
                         "${person.Name} ${person.FLastName} ${person.SLastName}"
                     } else {
-                        "Desconocido (ID: ${clock.IDPerson})"
+                        "${R.string.MsgUnknow} (ID: ${clock.IDPerson})"
                     }
                     ClockWithPerson(clock, fullName)
                 }

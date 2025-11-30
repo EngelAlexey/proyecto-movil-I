@@ -1,5 +1,6 @@
 package com.example.clocker
 
+import Entity.Clock
 import Entity.ClockWithPerson
 import Interface.OnClockItemClickListener
 import android.graphics.Color
@@ -22,17 +23,16 @@ class ClockViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     fun bind(item: ClockWithPerson, clickListener: OnClockItemClickListener) {
         txtName.text = item.personName
 
-        // --- CAMBIO AQUÍ: Formato de Fecha y Hora legible ---
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a")
         txtDate.text = item.clock.DateClock.format(formatter)
-        // ----------------------------------------------------
 
-        txtType.text = item.clock.Type
-        if (item.clock.Type.equals("Entrada", ignoreCase = true)) {
-            txtType.setTextColor(Color.parseColor("#2E7D32")) // Verde
+        if (item.clock.Type.equals(Clock.TYPE_ENTRY, ignoreCase = true)) {
+            txtType.setText(R.string.MsgEntry)
+            txtType.setTextColor(Color.parseColor("#2E7D32"))
             txtType.setBackgroundColor(Color.parseColor("#E8F5E9"))
         } else {
-            txtType.setTextColor(Color.parseColor("#C62828")) // Rojo
+            txtType.setText(R.string.MsgDeparture)
+            txtType.setTextColor(Color.parseColor("#C62828"))
             txtType.setBackgroundColor(Color.parseColor("#FFEBEE"))
         }
 
