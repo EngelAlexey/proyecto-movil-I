@@ -3,22 +3,29 @@ package Entity
 import android.graphics.Bitmap
 import java.time.LocalDate
 import java.util.Date
+import Data.IDataManager
+import java.time.LocalDateTime
 
 class Clock {
 
     private var idClock:        String     = ""
     private var idPerson:       String     = ""
-    private var dateClock:      LocalDate
+    private var dateClock:      LocalDateTime
     private var type:           String     = ""
     private var address:        String = ""
     private var latitude:       Int = 0
     private var longitude:      Int = 0
     private lateinit var photo: Bitmap
 
+    companion object {
+        const val TYPE_ENTRY = "Entry"
+        const val TYPE_DEPARTURE = "Departure"
+    }
+
     constructor(
         idClock: String,
         idPerson: String,
-        dateClock: LocalDate,
+        dateClock: LocalDateTime,
         type: String,
         address: String,
         latitude: Int,
@@ -48,7 +55,7 @@ class Clock {
         get() = this.type
         set(value) { this.type = value }
 
-    var DateClock: LocalDate
+    var DateClock: LocalDateTime
         get() = this.dateClock
         set(value) { this.dateClock = value }
 

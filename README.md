@@ -49,3 +49,79 @@ Propuesta de proyecto: Reloj marcador
 
 6) Mockups
    [mockups.pdf](https://github.com/user-attachments/files/22873640/mockups.pdf)
+
+7) CLOCKER API DOCUMENTATION
+   Base URL
+   Production: https://clocker-api.onrender.com Local: http://localhost:3001
+
+A) PEOPLE Base Endpoint: /api/people
+  - GET /api/people
+  - GET /api/people/:id 
+  - POST /api/people
+
+    JSON
+      {
+        "id": "105",
+        "name": "Alex",
+        "fLastName": "Herrera",
+        "sLastName": "Mora",
+        "nationality": "CR",
+        "status": true
+      }
+    - PUT /api/people 
+
+      JSON 
+        {
+          "id": "105",
+          "name": "Alex",
+          "fLastName": "Herrera",
+          "sLastName": "Mora",
+          "nationality": "CR",
+          "status": true
+         }
+  - DELETE /api/people/:id
+
+B) CLOCKS 
+  Base Endpoint: /api/clocks
+
+  - GET /api/clocks 
+  - GET /api/clocks/person/:idPerson 
+  - GET /api/clocks/search/date?date=YYYY-MM-DD 
+  - GET /api/clocks/search/type?type=Entry 
+  - POST /api/clocks
+
+    JSON
+
+    {
+      "idPerson": "105",
+      "dateClock": "2025-11-30T08:00:00",
+      "type": "Entry",
+      "address": "Headquarters",
+      "latitude": 10,
+      "longitude": -84,
+      "photo": "data:image/jpeg;base64,..."
+    }
+    
+   - PUT /api/clocks
+
+    JSON
+      {
+        "idClock": "173290000",
+        "idPerson": "105",
+        "dateClock": "2025-11-30T08:00:00",
+        "type": "Entry",
+        "address": "Headquarters",
+        "latitude": 10,
+        "longitude": -84
+      }
+  - DELETE /api/clocks/:id
+
+C) ATTENDANCES 
+  Base Endpoint: /api/attendances
+
+  - GET /api/attendances 
+  - GET /api/attendances/search/date?date=YYYY-MM-DD 
+  - GET /api/attendances/search/person/:idPerson 
+  - GET /api/attendances/search/type?type=Entry 
+  - POST /api/attendances
+  - DELETE /api/attendances/:id

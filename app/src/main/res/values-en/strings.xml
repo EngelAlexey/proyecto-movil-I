@@ -24,4 +24,13 @@
     <string name="MsgDuplicateDate">Already a registry</string>
     <string name="MsgDelete">Record was removed</string>
     <string name="MsgUpdate">Record was updated</string>
+    <string name="MsgDataNoFound">The data was not found</string>
+    <string name="btnClocker">Clocker</string>
+    <string name="btnRegistersClock">Registers</string>
+    <string name="TextDeleteActionQuestion">Do you want to delete this record?</string>
+    <string name="TextAttendances">Attendances</string>
+    <string name="MsgUnknow">Unknow</string>
+    <string name="MsgPending">Pending</string>
+    <string name="MsgEntry">Entry</string>
+    <string name="MsgDeparture">Departure</string>
 </resources>

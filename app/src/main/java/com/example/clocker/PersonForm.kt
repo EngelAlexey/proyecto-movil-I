@@ -2,18 +2,17 @@ package com.example.clocker
 
 import Controller.PersonController
 import Entity.Person
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Switch
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 class PersonForm : AppCompatActivity() {
 
@@ -35,7 +34,6 @@ class PersonForm : AppCompatActivity() {
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-
         personController = PersonController(this)
         TextId = findViewById(R.id.TextID)
         TextName = findViewById(R.id.TextName)
@@ -43,18 +41,6 @@ class PersonForm : AppCompatActivity() {
         TextSLastName = findViewById(R.id.TextSLastName)
         TextNationality = findViewById(R.id.TextNationality)
         SwitchStatus = findViewById(R.id.swStatus)
-
-
-      /*
-        val btnSave: Button = findViewById(R.id.btnAddPerson)
-        btnSave.setOnClickListener { savePerson() }
-
-        val btnDelete: Button = findViewById(R.id.btnDeletePerson)
-       */
-
-
-       /* val btnBack: Button = findViewById(R.id.btnBackNewPerson)
-        btnBack.setOnClickListener { finish() }*/
 
         val btnSearchPerson: ImageButton = findViewById(R.id.btnSearchId_person)
         btnSearchPerson.setOnClickListener { searchPerson() }
@@ -67,11 +53,11 @@ class PersonForm : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.btnSavePerson -> {
+            R.id.btnSave -> {
                 savePerson()
                 true
             }
-            R.id.btnDeletePerson -> {
+            R.id.btnDelete -> {
                 deletePerson()
                 true
             }
@@ -92,95 +78,101 @@ class PersonForm : AppCompatActivity() {
         SwitchStatus.isChecked = false
         isEditMode = false
     }
-    fun isValidate(): Boolean =
-         TextId.text.isNotBlank() &&
-         TextName.text.isNotBlank() &&
-         TextFLastName.text.isNotBlank() &&
-         TextSLastName.text.isNotBlank() &&
-         TextNationality.text.isNotBlank() &&
-         SwitchStatus.isChecked
 
+    fun isValidate(): Boolean =
+        TextId.text.isNotBlank() &&
+                TextName.text.isNotBlank() &&
+                TextFLastName.text.isNotBlank() &&
+                TextSLastName.text.isNotBlank() &&
+                TextNationality.text.isNotBlank() &&
+                SwitchStatus.isChecked
 
     fun searchPerson() {
-        try {
-            val id = TextId.text.toString().trim()
-            if (id.isBlank()) {
-                Toast.makeText(this, R.string.ErrorMsgGetById, Toast.LENGTH_LONG).show()
-                return
+        val id = TextId.text.toString().trim()
+        if (id.isBlank()) {
+            Toast.makeText(this, R.string.ErrorMsgGetById, Toast.LENGTH_LONG).show()
+            return
+        }
+
+        lifecycleScope.launch {
+            try {
+                val person = personController.getByIdPerson(id)
+
+                if (person == null) {
+                    Toast.makeText(this@PersonForm, R.string.ErrorMsgGetById, Toast.LENGTH_LONG).show()
+                    clear()
+                } else {
+                    TextName.setText(person.Name)
+                    TextFLastName.setText(person.FLastName)
+                    TextSLastName.setText(person.SLastName)
+                    TextNationality.setText(person.Nationality)
+                    SwitchStatus.isChecked = person.Status
+                    isEditMode = true
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this@PersonForm, e.message ?: getString(R.string.ErrorMsgGetById), Toast.LENGTH_LONG).show()
             }
-
-            val person = personController.getByIdPerson(id)
-
-            if (person == null) {
-                Toast.makeText(this, R.string.ErrorMsgGetById, Toast.LENGTH_LONG).show()
-                clear()
-            } else {
-                TextName.setText(person.Name)
-                TextFLastName.setText(person.FLastName)
-                TextSLastName.setText(person.SLastName)
-                TextNationality.setText(person.Nationality)
-                SwitchStatus.isChecked = person.Status
-                isEditMode = true
-            }
-
-        } catch (e: Exception) {
-            Toast.makeText(this, e.message ?: getString(R.string.ErrorMsgGetById), Toast.LENGTH_LONG).show()
         }
     }
-
 
     fun savePerson() {
-        try {
-            if (isValidate()) {
-                val id = TextId.text.toString().trim()
-                val existingPerson = personController.getByIdPerson(id)
+        if (isValidate()) {
+            val id = TextId.text.toString().trim()
 
-                if (existingPerson != null && !isEditMode) {
-                    Toast.makeText(this, getString(R.string.MsgDuplicateDate), Toast.LENGTH_LONG).show()
-                } else {
-                    val person = Person().apply {
-                        ID = id
-                        Name = TextName.text.toString()
-                        FLastName = TextFLastName.text.toString()
-                        SLastName = TextSLastName.text.toString()
-                        Nationality = TextNationality.text.toString()
-                        Status = SwitchStatus.isChecked
-                    }
+            lifecycleScope.launch {
+                try {
+                    val existingPerson = personController.getByIdPerson(id)
 
-                    if (isEditMode) {
-                        personController.updatePerson(person)
-                        Toast.makeText(this, getString(R.string.MsgUpdate), Toast.LENGTH_LONG).show()
+                    if (existingPerson != null && !isEditMode) {
+                        Toast.makeText(this@PersonForm, getString(R.string.MsgDuplicateDate), Toast.LENGTH_LONG).show()
                     } else {
-                        personController.addPerson(person)
-                        Toast.makeText(this, getString(R.string.MsgSave), Toast.LENGTH_LONG).show()
-                    }
+                        val person = Person().apply {
+                            ID = id
+                            Name = TextName.text.toString()
+                            FLastName = TextFLastName.text.toString()
+                            SLastName = TextSLastName.text.toString()
+                            Nationality = TextNationality.text.toString()
+                            Status = SwitchStatus.isChecked
+                        }
 
-                    clear()
+                        if (isEditMode) {
+                            personController.updatePerson(person)
+                            Toast.makeText(this@PersonForm, getString(R.string.MsgUpdate), Toast.LENGTH_LONG).show()
+                        } else {
+                            personController.addPerson(person)
+                            Toast.makeText(this@PersonForm, getString(R.string.MsgSave), Toast.LENGTH_LONG).show()
+                        }
+                        clear()
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(this@PersonForm, e.message.toString(), Toast.LENGTH_LONG).show()
                 }
-            } else {
-                Toast.makeText(this, R.string.ErrorMsgAdd, Toast.LENGTH_LONG).show()
             }
-        } catch (e: Exception) {
-            Toast.makeText(this, e.message.toString(), Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(this, R.string.ErrorMsgAdd, Toast.LENGTH_LONG).show()
         }
     }
 
-
-    fun deletePerson(){
-        try {
-            val person = personController.getByIdPerson(TextId.text.toString().trim())
-            val id = TextId.text.toString().trim()
-            if (id.isBlank()){
-                Toast.makeText(this, R.string.ErrorMsgGetById, Toast.LENGTH_LONG).show()
-            } else if (person == null){
-                Toast.makeText(this, R.string.ErrorMsgRemove, Toast.LENGTH_LONG).show()
-            } else {
-                personController.removePerson(person)
-            }
-            Toast.makeText(this, R.string.MsgDelete, Toast.LENGTH_LONG).show()
-        } catch (e: Exception) {
-            Toast.makeText(this, e.message.toString(), Toast.LENGTH_LONG).show()
+    fun deletePerson() {
+        val id = TextId.text.toString().trim()
+        if (id.isBlank()) {
+            Toast.makeText(this, R.string.ErrorMsgGetById, Toast.LENGTH_LONG).show()
+            return
         }
-        clear()
+
+        lifecycleScope.launch {
+            try {
+                val person = personController.getByIdPerson(id)
+                if (person == null) {
+                    Toast.makeText(this@PersonForm, R.string.ErrorMsgRemove, Toast.LENGTH_LONG).show()
+                } else {
+                    personController.removePerson(id)
+                    Toast.makeText(this@PersonForm, R.string.MsgDelete, Toast.LENGTH_LONG).show()
+                    clear()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this@PersonForm, e.message.toString(), Toast.LENGTH_LONG).show()
+            }
+        }
     }
 }
